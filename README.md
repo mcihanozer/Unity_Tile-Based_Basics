@@ -17,3 +17,5 @@ Next:
     * Waiting for level editor to be completed to introduce text based level construction in LevelController
     * InputManager and observer pattern to increase decoupling in GameController
     * Some other updates and improvements depending on the new game design decisions.
+
+P.S. GitHub shows some indentation issues that does not exist neither on MonoDevelop nor VS.
