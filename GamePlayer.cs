@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 //The class that is controlled by the player
 // TODO Remove old Player class and start using this one
+// TODO Introduce another class or interface for event
 public class GamePlayer : RigidObject
 {
 	bool mIsTouched;
@@ -38,17 +39,65 @@ public class GamePlayer : RigidObject
         mSelfTransform = mGObject.GetComponent<RectTransform>();
     }
 
+	public override void onNotify(eEvenType _event)
+	{
+		switch (_event)
+		{
+			case eEvenType.ON_DRAG:
+				onDrag ();
+				break;
+			case eEvenType.ON_DRAG_END:
+				onDragEnd ();
+				break;
+		}
+	}
+		
+	private void onDrag()
+	{
+		bool isPlayerMove = false;
+
+		if (!isTouched)
+		{
+			if (checkForTouch(Input.mousePosition))
+			{
+				isPlayerMove = true;
+			}
+		}
+		else
+		{
+			isPlayerMove = true;
+		}
+
+		if (isPlayerMove)
+		{
+			setPosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+		}
+	}
+
+	private void onDragEnd()
+	{
+		onTouchEnd ();
+	}
+		
+	private void onTouchEnd()
+	{
+		unTouch ();
+	}
+
 	public bool isTouched
+	//private bool isTouched
 	{
 		get{ return mIsTouched; }
 	}
 
-	public void unTouch()
+	//public void unTouch()
+	private void unTouch()
 	{
 		mIsTouched = false;
 	}
 
 	public void setPosition(Vector3 pos)
+	//private void setPosition(Vector3 pos)
 	{
 		if (mIsTouched)
 		{
@@ -59,7 +108,8 @@ public class GamePlayer : RigidObject
 
 	}
 
-	public bool checkForTouch(Vector3 pos)
+	//public bool checkForTouch(Vector3 pos)
+	private bool checkForTouch(Vector3 pos)
 	{
         // Gives same result
         //Debug.Log("mGObject.transform.position " + mGObject.transform.position);
