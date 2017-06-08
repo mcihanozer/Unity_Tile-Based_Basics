@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ using UnityEngine;
 // and also the only MonoBehaviour inherited class.
 public class GameController : MonoBehaviour
 {
+	private InputController mInputController;
 	private LevelController mLevelController;
 	private GameLevel mLevel;
 
@@ -24,60 +25,24 @@ public class GameController : MonoBehaviour
 	private bool init()
 	{
 		// TODO Make more generic by gettin level information
+		mInputController = new InputController();
 		mLevelController = new LevelController ();
 		mLevel = mLevelController.setTestLevel ();
+
+		mInputController.addObserver (mLevel.mPlayer);
+
 		return true;
 	}
-
-    // TODO will be moved to the InputManager or sth
-	private void onDrag()
-	{
-		bool isPlayerMove = false;
-
-        if (!mLevel.mPlayer.isTouched)
-        {
-            if (mLevel.mPlayer.checkForTouch(Input.mousePosition))
-            {
-                isPlayerMove = true;
-            }
-        }
-        else
-        {
-            isPlayerMove = true;
-        }
-
-        if (isPlayerMove)
-        {
-            mLevel.mPlayer.setPosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
-        }
-    }
-
-    // TODO will be moved to the InputManager or sth
-    private void onTouchEnd()
-	{
-		mLevel.mPlayer.unTouch ();
-	}
-
-    // TODO will be moved to the InputManager
+		
     private void handleInput()
 	{
-		// TODO Introduce Observer method. Player should handle everything below depending
-		//      on the event that it gets.
-		if (Input.GetMouseButton(0))
-		{
-			onDrag ();
-		}
-
-		if (Input.GetMouseButtonUp (0))
-		{
-			onTouchEnd ();
-		}
-
+		mInputController.checkForInput ();
 	}
 
 	private void callFrameMid()
 	{
 		// Handle collision detection of the player
+		// TODO Introduce another handler for this? Or leave to level since it has the grid?
 		if(mLevel.checkPlayerCollision())
 		{
 			Debug.Log ("COLLISION HAPPENED");
