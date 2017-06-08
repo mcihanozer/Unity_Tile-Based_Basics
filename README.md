@@ -11,12 +11,12 @@ Done:
     * Key classes for the game (controllers/managers, hierarchy for game objects, etc.)
     * Uniform grid base collision detection
     * Rectangle collision detection
+    * InputManager and observer pattern
 
 Next:
 
     * Waiting for level editor to be completed for introducing text based level construction in LevelController
     * Object pooling
-    * InputManager and observer pattern to increase decoupling in GameController
     * Some other updates and improvements depending on the new game design decisions.
 
 P.S. GitHub shows some indentation issues that does not exist neither on MonoDevelop nor VS.
