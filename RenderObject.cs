@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 // The base for any objects that we will be render on the screen
-public class RenderObject : BaseObject
+public class RenderObject : BaseObject, IObserver
 {
     // Due to Unity obstacles replaced with a Prefab. So, only GameObject is needed
     //protected Sprite mSprite;
@@ -65,6 +65,10 @@ public class RenderObject : BaseObject
         }
 
     }
+
+	// Override if you need aobserver
+	// TODO Make RenderObject abstract as RigidObject
+	public virtual void onNotify(eEvenType _event){}
 
     public Vector2 PIVOT
     {
